@@ -4,7 +4,7 @@ from datetime import date
 import os
 import gspread
 from google.oauth2.service_account import Credentials
-
+import json
 # Define scope for Google Sheets + Drive access
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -12,7 +12,12 @@ SCOPE = [
 ]
 
 # Load credentials from file and authorize client
-creds = Credentials.from_service_account_file(r"C:\Users\swede\Jaar 1(2) DSAI\Programming DSAI\Jaar 1 (2)\personal_projects\mood_tracker\credentials.json", scopes=SCOPE)
+
+
+creds_json = st.secrets["credentials"]
+creds_dict = json.loads(creds_json)
+creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPE)
+
 client = gspread.authorize(creds)
 
 # Open your sheet by name
