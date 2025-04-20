@@ -1,0 +1,23 @@
+# 🔒 Ignore your Google API credentials
+credentials.json
+
+# 🗃️ Ignore user data
+*.csv
+data/
+
+# 🐍 Python cache
+__pycache__/
+*.py[cod]
+*.log
+
+# 💻 IDE/editor files
+.vscode/
+.idea/
+
+# 🍃 Virtual environment
+venv/
+.venv/
+
+# 🧼 OS stuff
+.DS_Store
+Thumbs.db

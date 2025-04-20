@@ -2,6 +2,25 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 import os
+import gspread
+from google.oauth2.service_account import Credentials
+
+# Define scope for Google Sheets + Drive access
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
+# Load credentials from file and authorize client
+creds = Credentials.from_service_account_file(r"C:\Users\swede\Jaar 1(2) DSAI\Programming DSAI\Jaar 1 (2)\personal_projects\mood_tracker\credentials.json", scopes=SCOPE)
+client = gspread.authorize(creds)
+
+# Open your sheet by name
+sheet = client.open("mood_tracker").sheet1
+
+
+
+
 
 
 
@@ -18,6 +37,8 @@ st.write("Mood:", mood)
 st.write("Energy:", energy)
 st.write("Stress:", stress)
 st.write("Sleep:", sleep)
+note = st.text_input("any notes?")
+
 
 dataframe = {
         "username": username,
@@ -25,7 +46,8 @@ dataframe = {
         "mood" : mood,
         "energy" : energy,
         "stress" : stress,
-        "sleep" : sleep
+        "sleep" : sleep,
+        "notes" : note
 }
 new_df = pd.DataFrame([dataframe])
 
@@ -58,4 +80,8 @@ if st.button("Save"):
         
         master_df.drop_duplicates(subset=["Date"], keep='last', inplace=True)
         master_df.to_csv(master_file, index=False)
+        
+        google_data = [username, str(datum), mood, energy, stress, sleep, note]
+
+        
         st.success("Your entry has been saved!")
