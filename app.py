@@ -60,7 +60,14 @@ new_df = pd.DataFrame([dataframe])
 if st.button("Save"):
     if not username:
         st.warning("Please enter your username before saving.")
-    #else:
+    else:
+        try:
+            google_data = [username, str(datum), mood, energy, stress, sleep, note]
+            sheet.append_row(google_data)
+        
+            st.success("Your entry has been saved!")
+        except Exception as e:
+            st.error(f'Error saving data: {e}')
      #   user_file = f"{username}_mood_data.csv"
     #    master_file = "data/all_user_mood_data.csv"
 
@@ -86,7 +93,3 @@ if st.button("Save"):
  #       master_df.drop_duplicates(subset=["Date"], keep='last', inplace=True)
   #      master_df.to_csv(master_file, index=False)
         
-        google_data = [username, str(datum), mood, energy, stress, sleep, note]
-        sheet.append_row(google_data)
-        
-        st.success("Your entry has been saved!")
